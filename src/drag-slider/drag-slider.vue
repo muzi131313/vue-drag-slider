@@ -1,6 +1,7 @@
 <template>
   <div class="range-slider" ref="slider"
     :class="`range-slider-${direction}`">
+    <slot name="label"></slot>
     <div class="range-slider-track" ref="ranger">
       <span class="dragger" ref="dragger"></span>
       <span class="active" :style="{

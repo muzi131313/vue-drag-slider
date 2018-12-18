@@ -2,14 +2,18 @@
   <div class="home">
     <!-- <img alt="Vue logo" src="@/assets/logo.png"> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <drag-slider class="drag-slider"></drag-slider>
+    <drag-slider class="drag-slider">
+      <div class="label" slot="label">
+        label
+      </div>
+    </drag-slider>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
-import DragSlider from './drag-slider'
+import DragSlider from '../../../src/drag-slider'
 
 export default {
   name: 'home',
