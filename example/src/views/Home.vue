@@ -2,9 +2,17 @@
   <div class="home">
     <!-- <img alt="Vue logo" src="@/assets/logo.png"> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <drag-slider class="drag-slider">
+    <drag-slider class="drag-slider"
+      :percent="30"
+      :color="{
+        active: 'blueviolet',
+        background: 'aliceblue'
+      }">
       <div class="label" slot="label">
         label
+      </div>
+      <div class="tooltip" slot="tooltip">
+        tooltip
       </div>
     </drag-slider>
   </div>
@@ -29,5 +37,8 @@ export default {
   height: 10px;
   width: 255px;
   margin: 50px auto 0 auto;
+}
+.label {
+  text-align: left;
 }
 </style>

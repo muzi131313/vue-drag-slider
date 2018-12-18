@@ -3,9 +3,16 @@
     :class="`range-slider-${direction}`">
     <slot name="label"></slot>
     <div class="range-slider-track" ref="ranger">
+      <slot name="tooltip" class="tooltip" :style="{
+        left: tooltipLeft + 'px'
+      }"></slot>
+      <span class="bg" :style="{
+        backgroundColor: color.background
+      }"></span>
       <span class="dragger" ref="dragger"></span>
       <span class="active" :style="{
-        width: percent + '%'
+        width: percentVal + '%',
+        backgroundColor: color.active
       }"></span>
     </div>
   </div>
@@ -22,17 +29,51 @@ export default {
     direction: {
       type: String,
       default: horizontal
+    },
+    // 默认百分比
+    percent: {
+      type: Number,
+      default: 0
+    },
+    // 颜色
+    color: {
+      type: Object,
+      default() {
+        return {
+          active: '#EC4C42',
+          background: '#E7E5E1'
+        }
+      }
     }
   },
   data() {
     return {
-      percent: 0
+      percentVal: this.percent || 0,
+      tooltipWidth: 0,
+      tooltipLeft: ''
     }
   },
+  // computed: {
+  //   tooltipLeft() {
+  //     const tooltip = this.$refs.tooltip
+  //     const dragger = this.$refs.dragger
+  //     console.log(tooltip)
+  //     if (tooltip && dragger) {
+  //       return tooltip.offsetWidth + dragger.offsetLeft
+  //     }
+  //     return 0
+  //   }
+  // },
   mounted() {
     RS(
       this.$refs.slider,
-      this.change,
+      {
+        value: this.percentVal,
+        drag: this.drag,
+        create: this.create,
+        stop: this.stop
+      },
+      // this.change,
       this.direction === horizontal ? false : this.direction,
       {
         ranger: this.$refs.ranger,
@@ -41,13 +82,26 @@ export default {
     )
   },
   methods: {
-    change(value, target, event) {
-      this.percent = value
+    // 计算tooltip的left值
+    tooltipLeftCalc(value) {
+      this.tooltipLeft = `calc(${value}% - ${this.tooltipWidth / 2}px)`
+    },
+    create(value, target) {
+      // TODO: 查找tooltip dom
+      this.tooltipWidth = this.$refs.tooltip.offsetWidth
+      this.tooltipLeftCalc(value)
+    },
+    drag(value, target, event) {
+      this.percentVal = value
+      this.tooltipLeftCalc(value)
       this.$emit('change', {
         value,
         target,
         event
       })
+    },
+    stop(value, target, event) {
+
     }
   }
 }
@@ -64,7 +118,9 @@ $height: 6px;
     margin: 0 auto;
     position: relative;
     cursor: pointer;
-    &:before {
+    // &:before
+    // 背景
+    .bg {
       content: "";
       display: block;
       position: absolute;
@@ -75,6 +131,7 @@ $height: 6px;
       border-radius: 2px;
       background-color: #E7E5E1;
     }
+    // 拖拽
     .dragger {
       display: block;
       width: 16px;
@@ -86,6 +143,7 @@ $height: 6px;
       cursor: inherit;
       box-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,.32);
     }
+    // 激活色
     .active {
       position: absolute;
       height: $height;
@@ -94,6 +152,12 @@ $height: 6px;
       left: 0;
       top: 5px;
       border-radius: 2px;
+    }
+    // 弹框
+    .tooltip {
+      position: absolute;
+      top: -100%;
+      // margin-top: -100%;
     }
   }
   // 竖直
@@ -106,7 +170,8 @@ $height: 6px;
       cursor: pointer;
       width: 16px;
       height: 100px;
-      &:before {
+      // &:before
+      .bg {
         top: 0;
         right: auto;
         left: 5px;
