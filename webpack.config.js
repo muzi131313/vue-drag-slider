@@ -7,7 +7,7 @@ var VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   devtool: 'cheap-module-source-map',
-  entry: './scr/drag-slider/index.js',
+  entry: './src/drag-slider/index.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'drag-slider.js',
