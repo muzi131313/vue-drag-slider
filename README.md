@@ -33,7 +33,7 @@ export default {
 }
 // or
 import DragSlider from 'vue-drag-slider'
-Vue.component('drag-slider', DragSlider)
+Vue.use(DragSlider)
 ````
 - css
 ````
