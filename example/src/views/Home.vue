@@ -3,16 +3,26 @@
     <!-- <img alt="Vue logo" src="@/assets/logo.png"> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     <drag-slider class="drag-slider"
-      :percent="30"
+      :percent.sync="percent"
       :color="{
         active: 'blueviolet',
         background: 'aliceblue'
-      }">
-      <div class="label" slot="label">
-        label
-      </div>
+      }"
+      @change="percentChange">
       <div class="tooltip" slot="tooltip">
-        tooltip
+        {{percent}}
+      </div>
+    </drag-slider>
+    <drag-slider class="drag-slider"
+      :percent.sync="percent2"
+      :color="{
+        active: 'cadetblue',
+        background: 'darkkhaki'
+      }"
+      @change="percentChange">
+      <div class="label" slot="label">
+        percent
+        <span class="right">{{percent2}}</span>
       </div>
     </drag-slider>
   </div>
@@ -28,6 +38,17 @@ export default {
   components: {
     DragSlider
     // HelloWorld
+  },
+  data() {
+    return {
+      percent: 30,
+      percent2: 50
+    }
+  },
+  methods: {
+    percentChange(value, target, event) {
+      console.log('change value: ', value)
+    }
   }
 }
 </script>
@@ -38,7 +59,14 @@ export default {
   width: 255px;
   margin: 50px auto 0 auto;
 }
+.clear {
+  clear: both;
+}
 .label {
   text-align: left;
+  margin-bottom: 5px;
+  .right {
+    float: right;
+  }
 }
 </style>

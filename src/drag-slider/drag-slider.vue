@@ -3,13 +3,12 @@
     :class="`range-slider-${direction}`">
     <slot name="label"></slot>
     <div class="range-slider-track" ref="ranger">
-      <slot name="tooltip" class="tooltip" :style="{
-        left: tooltipLeft + 'px'
-      }"></slot>
       <span class="bg" :style="{
         backgroundColor: color.background
       }"></span>
-      <span class="dragger" ref="dragger"></span>
+      <span class="dragger" ref="dragger">
+        <slot name="tooltip" class="tooltip"></slot>
+      </span>
       <span class="active" :style="{
         width: percentVal + '%',
         backgroundColor: color.active
@@ -84,16 +83,27 @@ export default {
   methods: {
     // 计算tooltip的left值
     tooltipLeftCalc(value) {
-      this.tooltipLeft = `calc(${value}% - ${this.tooltipWidth / 2}px)`
+      // const tooltipWidth = this.tooltipWidth
+      // if (tooltipWidth) {
+      //   this.tooltipLeft = `calc(${value}% - ${tooltipWidth / 2}px)`
+      // }
     },
     create(value, target) {
       // TODO: 查找tooltip dom
-      this.tooltipWidth = this.$refs.tooltip.offsetWidth
-      this.tooltipLeftCalc(value)
+      const slider = this.$refs.slider
+      const tooltip = slider.querySelector('.tooltip')
+      const dragger = this.$refs.dragger
+      if (tooltip && dragger) {
+        this.tooltipWidth = tooltip.offsetWidth
+        this.tooltipLeft = (dragger.offsetWidth - this.tooltipWidth) / 2 + 'px'
+        tooltip.style.left = this.tooltipLeft
+        // this.tooltipLeftCalc(value)
+      }
     },
     drag(value, target, event) {
       this.percentVal = value
-      this.tooltipLeftCalc(value)
+      // this.tooltipLeftCalc(value)
+      this.$emit('update:percent', value)
       this.$emit('change', {
         value,
         target,
@@ -156,8 +166,27 @@ $height: 6px;
     // 弹框
     .tooltip {
       position: absolute;
-      top: -100%;
-      // margin-top: -100%;
+      top: -190%;
+      left: -50%;
+      font-size: 14px;
+      white-space: nowrap;
+      padding: 2px 5px;
+      min-width: 20px;
+      border-radius: 5px;
+      border: 1px solid #EC4C42;
+      background-color: #EC4C42;
+      color: #fff;
+      &:before {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border: 5px solid transparent;
+        border-top-color: inherit;
+        transform: translate(-50%, 0);
+      }
     }
   }
   // 竖直
