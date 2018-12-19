@@ -18,9 +18,6 @@ if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
 }
 
-export const dragSlider = {
-  install,
-  DragSlider: DragSliderComponent
+export default {
+  install
 }
-
-export default DragSliderComponent
