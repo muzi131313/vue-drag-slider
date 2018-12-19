@@ -2,7 +2,6 @@
 
 not use input[range], support ie9+
 
-## Todo
 ## Install
 ````
 npm install vue-drag-slider --save
@@ -43,6 +42,15 @@ Vue.use(DragSlider)
   margin: 50px auto 0 auto;
 }
 ````
+
+## Todo
+- [ × ] mobile suport
+
+## changelog
+- `1.0.4`
+  - tooltip/label support
+  - `percent` with sync
+  - color api add
 
 ## material link
 - [Simple pure Javascript drag controller slider](https://stackoverflow.com/questions/14095880/simple-pure-javascript-drag-controller-slider)
