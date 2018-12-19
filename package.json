@@ -1,6 +1,6 @@
 {
   "name": "vue-drag-slider",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "vue drag slider component",
   "main": "dist/drag-slider.js",
   "scripts": {
