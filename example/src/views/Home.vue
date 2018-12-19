@@ -31,7 +31,7 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
-import DragSlider from '../../../src/drag-slider'
+import { DragSlider } from '../../../src/drag-slider'
 
 export default {
   name: 'home',
