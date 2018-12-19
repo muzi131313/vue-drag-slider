@@ -2,7 +2,7 @@
   "name": "vue-drag-slider",
   "version": "1.0.4",
   "description": "vue drag slider component",
-  "main": "dist/drag-slider.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "rm -rf ./dist && webpack --colors --hide-modules",
     "test": "echo \"Error: no test specified\" && exit 1"
