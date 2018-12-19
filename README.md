@@ -24,7 +24,7 @@ npm run serve
 ````
 - vue
 ````
-import DragSlider from 'vue-drag-slider'
+import { DragSlider } from 'vue-drag-slider'
 export default {
   components: {
     DragSlider
