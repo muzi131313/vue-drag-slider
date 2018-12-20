@@ -7,11 +7,11 @@
  * ----------------------------------------------------------
  */
 
-function RS (target, event, vertical, {
-  ranger,
-  dragger
-}) {
+function RS (target, event, vertical, options) {
   event = event || {}
+
+  var ranger = options.ranger
+  var dragger = options.dragger
 
   var win = window
   var doc = document
