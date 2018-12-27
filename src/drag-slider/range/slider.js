@@ -7,11 +7,12 @@
  * ----------------------------------------------------------
  */
 
-function RS (target, event, vertical, options) {
+function RS(target, event, vertical, options) {
   event = event || {}
 
   var ranger = options.ranger
   var dragger = options.dragger
+  var exceptClasses = options.exceptClasses
 
   var win = window
   var doc = document
@@ -38,6 +39,30 @@ function RS (target, event, vertical, options) {
     return typeof x === 'function'
   }
 
+  // 浏览器是否支持passive
+  // doc: https://juejin.im/post/5ad804c1f265da504547fe68
+  function passiveSupported() {
+    var passiveSupported = false
+    try {
+      var options = Object.defineProperty({}, 'passive', {
+        get: function() {
+          passiveSupported = true
+        }
+      })
+
+      if (window.addEventListener) {
+        window.addEventListener('test', null, options)
+        setTimeout(() => {
+          window.removeEventListener('test', null, options)
+        }, 0)
+      }
+    }
+    catch (err) {
+      console.warn('passiveSupported() error: ', err)
+    }
+    return passiveSupported
+  }
+
   function getCoordinate(el) {
     var x = el[offset]
     while ((el = el.offsetParent)) {
@@ -48,7 +73,9 @@ function RS (target, event, vertical, options) {
 
   function on(ev, el, fn) {
     if (el.addEventListener) {
-      el.addEventListener(ev, fn, false)
+      var isPassiveSupported = passiveSupported()
+      // https://developers.google.com/web/updates/2016/06/passive-event-listeners?hl=zh-cn
+      el.addEventListener(ev, fn, isPassiveSupported ? { passive: false } : false)
     }
     else if (el.attachEvent) {
       el.attachEvent('on' + ev, fn)
@@ -68,6 +95,32 @@ function RS (target, event, vertical, options) {
     else {
       el['on' + ev] = null
     }
+  }
+
+  // https://gomakethings.com/how-to-get-the-closest-parent-element-with-a-matching-selector-using-vanilla-javascript/
+  var getClosest = function(elem, selector) {
+    // Element.matches() polyfill
+    if (!Element.prototype.matches) {
+      Element.prototype.matches = Element.prototype.matchesSelector
+        || Element.prototype.mozMatchesSelector
+        || Element.prototype.msMatchesSelector
+        || Element.prototype.oMatchesSelector
+        || Element.prototype.webkitMatchesSelector
+        || function(s) {
+          var matches = (this.document || this.ownerDocument).querySelectorAll(s)
+          var i = matches.length
+          while (--i >= 0 && matches.item(i) !== this) {
+            // nothing
+          }
+          return i > -1
+        }
+    }
+
+    // Get the closest matching element
+    for (; elem && elem !== document; elem = elem.parentNode) {
+      if (elem.matches(selector)) return elem
+    }
+    return null
   }
 
   // function addClass(s, el) {
@@ -98,6 +151,25 @@ function RS (target, event, vertical, options) {
   }
 
   function preventDefault(e) {
+    var target = e.target
+    // console.log('target: ', target)
+    if (exceptClasses && exceptClasses.length) {
+      var flag = false
+      for (var i = 0; i < exceptClasses.length; i++) {
+        var exceptClass = exceptClasses[i]
+        var findDom = getClosest(target, '.' + exceptClass)
+        var exceptDom = document.querySelector('.' + exceptClass)
+        // console.log('findDom: ', findDom, exceptDom, exceptDom === target)
+        if (findDom
+          || (exceptDom && exceptDom === target)) {
+          flag = true
+        }
+      }
+      if (flag) {
+        return
+      }
+    }
+    // doc: https://www.chromestatus.com/features/5093566007214080
     if (e.preventDefault) e.preventDefault()
     return false
   }
