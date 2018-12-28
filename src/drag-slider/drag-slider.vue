@@ -43,6 +43,13 @@ export default {
           background: '#E7E5E1'
         }
       }
+    },
+    // 阻止默认事件例外的selector
+    exceptClasses: {
+      type: Array,
+      default() {
+        return []
+      }
     }
   },
   data() {
@@ -76,7 +83,8 @@ export default {
       this.direction === horizontal ? false : this.direction,
       {
         ranger: this.$refs.ranger,
-        dragger: this.$refs.dragger
+        dragger: this.$refs.dragger,
+        exceptClasses: this.exceptClasses
       }
     )
   },

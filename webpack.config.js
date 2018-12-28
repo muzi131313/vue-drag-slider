@@ -10,7 +10,7 @@ module.exports = {
   entry: './src/drag-slider/index.js',
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'drag-slider.js',
+    filename: 'index.js',
     library: 'vue-drag-slider',
     libraryTarget: 'umd',
     umdNamedDefine: true
@@ -23,13 +23,13 @@ module.exports = {
       {
         test: /\.js$/,
         use: 'babel-loader',
-        include: __dirname,
+        // include: __dirname,
         exclude: /node_modules/
       }, {
         test: /\.vue$/,
         use: 'vue-loader',
-        include: __dirname,
-        exclude: /node_modules/ // ,
+        // include: __dirname,
+        exclude: /node_modules/
         // options: {
         //   postcss: {
         //     config: {
@@ -43,11 +43,12 @@ module.exports = {
           'vue-style-loader',
           'css-loader',
           {
-            loader: 'sass-loader',
-            options: {
-              // 你也可以从一个文件读取，例如 `variables.scss`
-              data: `$color: red;`
-            }
+            loader: 'sass-loader'
+            // ,
+            // options: {
+            //   // 你也可以从一个文件读取，例如 `variables.scss`
+            //   data: `$color: red;`
+            // }
           }
         ]
       }
@@ -56,14 +57,4 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin()
   ]
-  // ,
-  // plugins: [
-  //   new webpack.optimize.UglifyJsPlugin({
-  //     beautify: false,
-  //     comments: false,
-  //     compress: {
-  //       warnings: false
-  //     }
-  //   })
-  // ]
 }
