@@ -50,6 +50,11 @@ export default {
       default() {
         return []
       }
+    },
+    // 是否可以拖动
+    disable: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -84,7 +89,8 @@ export default {
       {
         ranger: this.$refs.ranger,
         dragger: this.$refs.dragger,
-        exceptClasses: this.exceptClasses
+        exceptClasses: this.exceptClasses,
+        disable: this.disable
       }
     )
   },

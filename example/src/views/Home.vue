@@ -8,6 +8,7 @@
         active: 'blueviolet',
         background: 'aliceblue'
       }"
+      :disable="true"
       @change="percentChange">
       <div class="tooltip" slot="tooltip">
         {{percent}}

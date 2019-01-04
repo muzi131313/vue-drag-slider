@@ -13,6 +13,7 @@ function RS(target, event, vertical, options) {
   var ranger = options.ranger
   var dragger = options.dragger
   var exceptClasses = options.exceptClasses
+  var disable = options.disable
 
   var win = window
   var doc = document
@@ -189,6 +190,9 @@ function RS(target, event, vertical, options) {
 
   function dragStart(e) {
     setSize()
+    if (disable) {
+      return
+    }
     drag = true
     dragUpdate(e)
     on('touchmove', doc, dragMove)
@@ -203,6 +207,9 @@ function RS(target, event, vertical, options) {
   }
 
   function dragStop(e) {
+    if (disable) {
+      return
+    }
     drag = false
     off('touchmove', doc, dragMove)
     off('mousemove', doc, dragMove)
