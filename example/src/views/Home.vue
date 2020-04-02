@@ -26,6 +26,7 @@
         <span class="right">{{percent2}}</span>
       </div>
     </drag-slider>
+    <button @click="goImages">go images</button>
   </div>
 </template>
 
@@ -49,6 +50,12 @@ export default {
   methods: {
     percentChange(value, target, event) {
       console.log('change value: ', value)
+    },
+    goImages() {
+      console.log('goImage')
+      this.$router.push({
+        name: 'images'
+      })
     }
   }
 }
