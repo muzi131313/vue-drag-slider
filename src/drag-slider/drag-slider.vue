@@ -59,6 +59,7 @@ export default {
   },
   data() {
     return {
+      rs: null,
       percentVal: this.percent || 0,
       tooltipWidth: 0,
       tooltipLeft: ''
@@ -76,7 +77,7 @@ export default {
   //   }
   // },
   mounted() {
-    RS(
+    this.rs = RS(
       this.$refs.slider,
       {
         value: this.percentVal,
@@ -127,6 +128,9 @@ export default {
     stop(value, target, event) {
 
     }
+  },
+  beforeDestroy() {
+    this.rs()
   }
 }
 </script>

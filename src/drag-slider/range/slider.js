@@ -230,17 +230,19 @@ function RS(target, event, vertical, options) {
     }
   }
 
+  function resize(e) {
+    setSize()
+    drag = false
+    dragger.style[css] = (cacheValue / 100) * rangerSize - draggerSize / 2 + 'px'
+  }
+
   on('touchstart', ranger, dragStart)
   on('mousedown', ranger, dragStart)
 
   on('touchend', doc, dragStop)
   on('mouseup', doc, dragStop)
 
-  on('resize', win, function(e) {
-    setSize()
-    drag = false
-    dragger.style[css] = (cacheValue / 100) * rangerSize - draggerSize / 2 + 'px'
-  })
+  on('resize', win, resize)
 
   ranger.appendChild(dragger)
   target.appendChild(ranger)
@@ -248,7 +250,16 @@ function RS(target, event, vertical, options) {
   setSize()
   dragInit()
 
-  return target
+  return function destory() {
+    off('touchstart', ranger, dragStart)
+    off('mousedown', ranger, dragStart)
+
+    off('touchend', doc, dragStop)
+    off('mouseup', doc, dragStop)
+
+    off('resize', win, resize)
+    target.remove()
+  }
 }
 
 export default RS
