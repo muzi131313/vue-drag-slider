@@ -1,5 +1,6 @@
 <template>
   <div>
+    <button @click="emit">emit</button>
     <ul id="ul" ref="ul">
       <li v-for="(image, key) in images" :key="key" style="width: 100%; height: 30px;">
         <image :src="image.src" width="100px"></image>
@@ -27,6 +28,7 @@ export default {
       console.log('myevent')
     })
     this.$root.eventHub.$on('changeTeamName', () => {
+      console.log('this: ', this)
       console.log('changeTeamName...')
     })
     let ulDom = document.querySelector('#ul')
@@ -45,6 +47,9 @@ export default {
     }, 1e3)
   },
   methods: {
+    emit() {
+      this.$root.eventHub.$emit('changeTeamName')
+    },
     liClick() {
       console.log('liClick')
     },
