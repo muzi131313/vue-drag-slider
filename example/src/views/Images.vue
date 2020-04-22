@@ -5,10 +5,12 @@
         <image :src="image.src" width="100px"></image>
       </li>
     </ul>
+    <empty ref="empty"></empty>
   </div>
 </template>
 <script>
-let NUM = 10000
+import Empty from './empty.vue'
+let NUM = 100
 
 export default {
   name: 'Images',
@@ -17,10 +19,16 @@ export default {
       images: []
     }
   },
-  created() {
-
+  components: {
+    Empty
   },
   mounted() {
+    this.$refs.empty.$on('myevent', () => {
+      console.log('myevent')
+    })
+    this.$root.eventHub.$on('changeTeamName', () => {
+      console.log('changeTeamName...')
+    })
     let ulDom = document.querySelector('#ul')
     for (let i = 0; i < NUM; i++) {
       this.images.push({
