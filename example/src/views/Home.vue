@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <!-- <img alt="Vue logo" src="@/assets/logo.png"> -->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <drag-slider class="drag-slider"
+    <img alt="Vue logo" src="@/assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <!-- <drag-slider class="drag-slider"
       :percent.sync="percent"
       :color="{
         active: 'blueviolet',
@@ -25,21 +25,22 @@
         percent
         <span class="right">{{percent2}}</span>
       </div>
-    </drag-slider>
+    </drag-slider> -->
+
     <button @click="goImages">go images</button>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
+import HelloWorld from '@/components/HelloWorld.vue'
 import { DragSlider } from '../../../src/drag-slider'
 
 export default {
   name: 'home',
   components: {
-    DragSlider
-    // HelloWorld
+    // DragSlider
+    HelloWorld
   },
   data() {
     return {

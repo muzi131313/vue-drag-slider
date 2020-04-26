@@ -1,8 +1,10 @@
 // import http from '@/http'
 import axiosPro from 'axios-pro'
 import mappers from '@/http/mappers'
+// import MemoryStore from '@/lib/memory_stats.js'
 
 export default Vue => {
+  // MemoryStore()
   Vue.prototype.$BASE_URL = process.env.BASE_URL
   Vue.use(axiosPro, {
     mappers,

@@ -1,6 +1,7 @@
 <template>
   <div>
     <button @click="emit">emit</button>
+    <button @click="back">back</button>
     <ul id="ul" ref="ul">
       <li v-for="(image, key) in images" :key="key" style="width: 100%; height: 30px;">
         <image :src="image.src" width="100px"></image>
@@ -10,6 +11,7 @@
   </div>
 </template>
 <script>
+// import BusFactory from 'vue-happy-bus'
 import Empty from './empty.vue'
 let NUM = 100
 
@@ -18,19 +20,20 @@ export default {
   data() {
     return {
       images: []
+      // bus: BusFactory(this)
     }
   },
   components: {
     Empty
   },
   mounted() {
-    this.$refs.empty.$on('myevent', () => {
-      console.log('myevent')
-    })
-    this.$root.eventHub.$on('changeTeamName', () => {
-      console.log('this: ', this)
-      console.log('changeTeamName...')
-    })
+    // 在生命周期中进行 $on
+    // this.bus.$on('event name', () => {
+    //   // do  something
+    //   console.log('event name')
+    // })
+    this.$refs.empty.$on('myevent', this.myevent)
+    this.$root.eventHub.$on('changeTeamName', this.changeTeamName)
     let ulDom = document.querySelector('#ul')
     for (let i = 0; i < NUM; i++) {
       this.images.push({
@@ -47,6 +50,13 @@ export default {
     }, 1e3)
   },
   methods: {
+    myevent() {
+      console.log('myevent')
+    },
+    changeTeamName() {
+      console.log('this: ', this)
+      console.log('changeTeamName...')
+    },
     emit() {
       this.$root.eventHub.$emit('changeTeamName')
     },
@@ -66,6 +76,8 @@ export default {
   beforeDestroy() {
     console.log('[Images.vue] beforeDestory()...')
     this.resetEvent()
+    this.$root.eventHub.$off('changeTeamName', this.changeTeamName)
+    this.$refs.empty.$off('myevent', this.myevent)
   }
 }
 </script>
