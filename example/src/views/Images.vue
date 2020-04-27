@@ -1,19 +1,20 @@
 <template>
   <div>
-    <button @click="emit">emit</button>
-    <button @click="back">back</button>
+    <!-- <button @click="emit">emit</button> -->
+    <button id="btn" @click="back">back</button>
     <ul id="ul" ref="ul">
       <li v-for="(image, key) in images" :key="key" style="width: 100%; height: 30px;">
+        image: {{image.src}}
         <image :src="image.src" width="100px"></image>
       </li>
     </ul>
-    <empty ref="empty"></empty>
+    <empty ref="empty" v-if="images.length === 0"></empty>
   </div>
 </template>
 <script>
 // import BusFactory from 'vue-happy-bus'
 import Empty from './empty.vue'
-let NUM = 100
+let NUM = 10000
 
 export default {
   name: 'Images',
@@ -32,7 +33,7 @@ export default {
     //   // do  something
     //   console.log('event name')
     // })
-    this.$refs.empty.$on('myevent', this.myevent)
+    // this.$refs.empty.$on('myevent', this.myevent)
     this.$root.eventHub.$on('changeTeamName', this.changeTeamName)
     let ulDom = document.querySelector('#ul')
     for (let i = 0; i < NUM; i++) {
@@ -52,6 +53,9 @@ export default {
   methods: {
     myevent() {
       console.log('myevent')
+    },
+    back() {
+      this.$router.back()
     },
     changeTeamName() {
       console.log('this: ', this)
@@ -77,7 +81,16 @@ export default {
     console.log('[Images.vue] beforeDestory()...')
     this.resetEvent()
     this.$root.eventHub.$off('changeTeamName', this.changeTeamName)
-    this.$refs.empty.$off('myevent', this.myevent)
+    // this.$refs.empty.$off('myevent', this.myevent)
   }
 }
 </script>
+<style scoped>
+#btn {
+  margin: 30px 0;
+}
+#ul {
+  height: 100px;
+  overflow-y: scroll;
+}
+</style>

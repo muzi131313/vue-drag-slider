@@ -7,7 +7,7 @@ import ProjectContainer from './views/containers/project-container.vue'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  mode: 'hash',
   routes: [
     {
       path: '/',
@@ -20,12 +20,12 @@ export default new Router({
       component: ItemContainer,
       children: [
         {
-          path: '/project',
+          path: 'project',
           name: 'project',
           component: ProjectContainer,
           children: [
             {
-              path: '/images',
+              path: 'images',
               name: 'images',
               component: () => import(/* webpackChunkName: "image" */ './views/Images.vue')
             }
