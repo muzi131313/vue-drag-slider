@@ -1,7 +1,7 @@
 <template>
   <div class="item-container"><router-view></router-view></div>
 </template>
-<<script>
+<script>
 export default {
   name: 'ItemContainer'
 }
